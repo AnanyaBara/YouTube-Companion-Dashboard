@@ -1,63 +1,176 @@
-<<<<<<< HEAD
-# YoutubeCompanion
+YouTube Companion Dashboard
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.15.
+This project is a YouTube Companion Dashboard built with:
 
-## Development server
+Frontend: Angular 19 + Angular Material
 
-To start a local development server, run:
+Backend: .NET 8 Web API + Entity Framework Core + PostgreSQL
 
-```bash
+YouTube API integration to manage videos, comments, and notes.
+
+It allows users to:
+
+List their uploaded YouTube videos
+
+Update video title and description
+
+Post, reply, and delete comments
+
+Add and search notes with tags
+
+Track event logs
+
+Backend Setup (.NET 8)
+Prerequisites
+
+.NET 8 SDK
+
+PostgreSQL
+
+Google OAuth credentials with YouTube Data API v3 enabled
+
+Quickstart
+
+Clone the repo and navigate to backend folder
+Set environment variables
+Restore packages:
+
+dotnet restore
+
+
+Run EF Core migrations:
+
+dotnet tool install --global dotnet-ef --version 8.0.0
+dotnet ef migrations add InitialCreate -p src/YouTubeCompanion -s src/YouTubeCompanion
+dotnet ef database update -p src/YouTubeCompanion -s src/YouTubeCompanion
+
+
+Start the backend server:
+
+dotnet run --project src/YouTubeCompanion
+
+
+Backend Structure
+
+src/YouTubeCompanion/
+├── Controllers/         # API controllers: AuthController, VideosController, NotesController
+├── Data/                # EF Core DbContext
+├── Models/              # User, Note, EventLog, UserToken
+├── Repositories/        # CRUD repositories for Users and Notes
+├── Services/            # YouTube API service, Event Logger
+├── Program.cs           # Application entry point
+├── appsettings.json     # Configuration
+└── YouTubeCompanion.csproj
+
+
+API Endpoints
+
+GET /api/auth/google/login → Google OAuth login
+
+GET /api/auth/google/callback → OAuth callback
+
+GET /api/videos → List user uploads
+
+GET /api/videos/{id} → Get video details
+
+PUT /api/videos/{id} → Update video title/description
+
+POST /api/videos/{id}/comment → Post comment
+
+POST /api/videos/{id}/comment/{parent}/reply → Reply to comment
+
+DELETE /api/comments/{commentId} → Delete comment
+
+GET /api/notes → Search notes
+
+POST /api/notes → Create note
+
+PUT /api/notes/{id} → Update note
+
+DELETE /api/notes/{id} → Delete note
+
+Frontend Setup (Angular 19)
+Prerequisites
+
+Node.js
+ (v20+)
+
+Angular CLI 19
+
+Quickstart
+
+Navigate to frontend folder
+Install dependencies:
+
+npm install
+
+
+Run the Angular development server:
+
 ng serve
-```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-## Code scaffolding
+Open http://localhost:4200
+ in your browser. The app reloads automatically on file changes.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Frontend Structure
 
-```bash
-ng generate component component-name
-```
+src/app/
+├── pages/
+│   ├── dashboard/           # Dashboard page with video list
+│   ├── video-details/       # Video detail page with comments
+│   └── notes/               # Notes management page
+├── dialogs/
+│   ├── note-dialog/         # Add/Edit note dialog
+│   └── comment-dialog/      # Post/reply comment dialog
+├── services/
+│   ├── auth.service.ts      # Google OAuth login
+│   ├── video.service.ts     # Video API calls
+│   ├── note.service.ts      # Notes API calls
+│   └── comment.service.ts   # Comments API calls
+├── app.component.ts
+└── app.routes.ts            # Standalone Angular 19 routing
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+⚡ Connecting Frontend to Backend
 
-```bash
-ng generate --help
-```
+The backend expects X-User-Id header for authentication (replace with JWT in production).
 
-## Building
+OAuth flow:
 
-To build the project run:
+User clicks Login with Google → redirects to backend/api/auth/google/login
 
-```bash
+After successful OAuth, backend redirects to frontend/auth/success?userId=<id>
+
+Frontend stores userId and sends it in X-User-Id header for all API requests
+
+Building
+Frontend
 ng build
-```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
-## Running unit tests
+Builds production-ready files in dist/.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Backend
+dotnet publish -c Release -o ./publish
 
-```bash
+Testing
+
+Frontend unit tests:
+
 ng test
-```
 
-## Running end-to-end tests
 
-For end-to-end (e2e) testing, run:
+Backend unit tests: Implement using xUnit or preferred framework.
 
-```bash
-ng e2e
-```
+Additional Resources
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Angular CLI Docs
 
-## Additional Resources
+Angular Material Docs
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-=======
-# YouTubeCompanion
->>>>>>> da3232a302aac82143ba0a05e8e94c3242723b11
+YouTube Data API v3 Docs
+
+EF Core Docs
+
+
+
