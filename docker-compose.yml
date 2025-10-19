@@ -1,0 +1,43 @@
+﻿version: '3.9'
+
+services:
+  api:
+    container_name: youtube-companion-api
+    build:
+      context: .
+      dockerfile: ./src/YouTubeCompanion/Dockerfile
+    ports:
+      - "7088:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ConnectionStrings__DefaultConnection: "Host=db;Port=5432;Database=youtube_companion;Username=postgres;Password=postgres"
+      YouTube__ClientId: "YOUR_GOOGLE_CLIENT_ID"
+      YouTube__ClientSecret: "YOUR_GOOGLE_CLIENT_SECRET"
+      YouTube__RedirectUri: "https://localhost:7088/api/auth/google/callback"
+      Jwt__Key: "YourSecretKeyHere123!"
+    depends_on:
+      - db
+    networks:
+      - youtube_network
+
+  db:
+    container_name: youtube-companion-db
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: youtube_companion
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - youtube_network
+
+networks:
+  youtube_network:
+    driver: bridge
+
+volumes:
+  postgres_data:

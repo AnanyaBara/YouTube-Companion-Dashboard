@@ -1,0 +1,6 @@
+@YouTubeCompanion_HostAddress = http://localhost:5255
+
+GET {{YouTubeCompanion_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
