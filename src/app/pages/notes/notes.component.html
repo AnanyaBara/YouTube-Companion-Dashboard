@@ -1,0 +1,13 @@
+<div>
+  <h2>My Notes</h2>
+  <button mat-raised-button color="primary" (click)="openNoteDialog()">New Note</button>
+  <mat-spinner *ngIf="loading"></mat-spinner>
+  <mat-list *ngIf="!loading">
+    <mat-list-item *ngFor="let note of notes">
+      <h4 matLine>{{ note.title }}</h4>
+      <p matLine>{{ note.body }}</p>
+      <button mat-button (click)="openNoteDialog(note)">Edit</button>
+      <button mat-button color="warn" (click)="deleteNote(note.id)">Delete</button>
+    </mat-list-item>
+  </mat-list>
+</div>

@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>{{ data.parentId ? 'Reply Comment' : 'New Comment' }}</h2>
+<mat-dialog-content>
+  <mat-form-field style="width:100%">
+    <textarea matInput placeholder="Comment" [(ngModel)]="text"></textarea>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="dialogRef.close()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="save()">Save</button>
+</mat-dialog-actions>
